@@ -146,10 +146,12 @@ public class InventoryManager {
             if(inv == null)
                 return;
 
-            if( e.getAction() == InventoryAction.COLLECT_TO_CURSOR ||
-                e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY ||
-                e.getAction() == InventoryAction.NOTHING) {
+            if(e.getAction() == InventoryAction.COLLECT_TO_CURSOR || e.getAction() == InventoryAction.NOTHING) {
+                e.setCancelled(true);
+                return;
+            }
 
+            if(e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && e.getClickedInventory() == p.getOpenInventory().getBottomInventory()) {
                 e.setCancelled(true);
                 return;
             }
