@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import com.google.common.base.Preconditions;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -84,7 +85,13 @@ public class SmartInventory {
         properties.forEach(contents::setProperty);
         
         this.manager.setContents(player, contents);
-        this.provider.init(player, contents);
+        try {
+            this.provider.init(player, contents);
+        } catch (Exception ex) {
+            player.closeInventory();
+            player.sendMessage(ChatColor.RED + "An unknown error occurred while trying to open the menu");
+            return null;
+        }
 
         InventoryOpener opener = this.manager.findOpener(type)
                 .orElseThrow(() -> new IllegalStateException("No opener found for the inventory type " + type.name()));

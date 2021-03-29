@@ -16,6 +16,7 @@
 
 package fr.minuskube.inv;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -122,7 +123,13 @@ public class ClickableItem {
                 }
             } else {
                 Consumer<ItemClickData> newConsumer = (Consumer<ItemClickData>) this.consumer;
-                newConsumer.accept(data);
+                try {
+                    newConsumer.accept(data);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    data.getPlayer().closeInventory();
+                    data.getPlayer().sendMessage(ChatColor.RED + "An unknown error occurred while trying to process your request");
+                }
             }
         }
     }
