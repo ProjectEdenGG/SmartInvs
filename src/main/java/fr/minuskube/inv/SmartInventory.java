@@ -88,6 +88,7 @@ public class SmartInventory {
         try {
             this.provider.init(player, contents);
         } catch (Exception ex) {
+            ex.printStackTrace();
             player.closeInventory();
             player.sendMessage(ChatColor.RED + "An unknown error occurred while trying to open the menu");
             return null;
